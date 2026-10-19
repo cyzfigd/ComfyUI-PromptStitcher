@@ -35,7 +35,6 @@ try:
     os.makedirs(prompt_library, exist_ok=True)
 
     register_routes(server.PromptServer.instance, prompt_library)
-    print("[ComfyUI-PromptStitcher] ✅ API routes registered successfully.")
 except Exception as e:
     print(f"[ComfyUI-PromptStitcher] ⚠ Failed to register API routes: {e}")
     import traceback

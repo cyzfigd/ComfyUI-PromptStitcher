@@ -189,7 +189,7 @@ def register_routes(prompt_server, base_dir: str):
     svc = LibraryService(base_dir)
 
     # ---- 扫描 -------------------------------------------------
-    @prompt_server.routes.get("/diy/library/scan")
+    @prompt_server.routes.get("/prompt-stitcher/library/scan")
     async def api_scan(request: web.Request):
         path = request.query.get("path", "")
         try:
@@ -199,7 +199,7 @@ def register_routes(prompt_server, base_dir: str):
             return svc._json_error(str(e), "INVALID_PATH", 400)
 
     # ---- 读取文件内容 -------------------------------------------
-    @prompt_server.routes.get("/diy/library/file")
+    @prompt_server.routes.get("/prompt-stitcher/library/file")
     async def api_read_file(request: web.Request):
         path = request.query.get("path", "")
         if not path:
@@ -213,7 +213,7 @@ def register_routes(prompt_server, base_dir: str):
             return svc._json_error(str(e), "ENCODE_ERROR", 400)
 
     # ---- 保存文件（统一入口：新建 / 更新 / 重命名）-----------------
-    @prompt_server.routes.post("/diy/library/file/save")
+    @prompt_server.routes.post("/prompt-stitcher/library/file/save")
     async def api_save_file(request: web.Request):
         try:
             body = await request.json()
@@ -232,7 +232,7 @@ def register_routes(prompt_server, base_dir: str):
             return svc._json_error(str(e), "INVALID_PATH", 400)
 
     # ---- 删除文件 ----------------------------------------------
-    @prompt_server.routes.delete("/diy/library/file")
+    @prompt_server.routes.delete("/prompt-stitcher/library/file")
     async def api_delete_file(request: web.Request):
         path = request.query.get("path", "")
         if not path:
@@ -244,7 +244,7 @@ def register_routes(prompt_server, base_dir: str):
             return svc._json_error(str(e), "NOT_FOUND", 404)
 
     # ---- 创建文件夹 ---------------------------------------------
-    @prompt_server.routes.post("/diy/library/folder")
+    @prompt_server.routes.post("/prompt-stitcher/library/folder")
     async def api_create_folder(request: web.Request):
         try:
             body = await request.json()
@@ -260,7 +260,7 @@ def register_routes(prompt_server, base_dir: str):
             return svc._json_error(str(e), "INVALID_PATH", 400)
 
     # ---- 删除文件夹 ---------------------------------------------
-    @prompt_server.routes.delete("/diy/library/folder")
+    @prompt_server.routes.delete("/prompt-stitcher/library/folder")
     async def api_delete_folder(request: web.Request):
         path = request.query.get("path", "")
         if not path:
@@ -272,7 +272,7 @@ def register_routes(prompt_server, base_dir: str):
             return svc._json_error(str(e), "NOT_FOUND", 404)
 
     # ---- 重命名文件夹 -------------------------------------------
-    @prompt_server.routes.post("/diy/library/folder/rename")
+    @prompt_server.routes.post("/prompt-stitcher/library/folder/rename")
     async def api_rename_folder(request: web.Request):
         try:
             body = await request.json()
@@ -289,7 +289,7 @@ def register_routes(prompt_server, base_dir: str):
             return svc._json_error(str(e), "INVALID_PATH", 400)
 
     # ---- 文件夹树（设置弹窗用）------------------------------------
-    @prompt_server.routes.get("/diy/library/tree")
+    @prompt_server.routes.get("/prompt-stitcher/library/tree")
     async def api_folder_tree(request: web.Request):
         try:
             tree = svc.folder_tree()
@@ -298,7 +298,7 @@ def register_routes(prompt_server, base_dir: str):
             return svc._json_error(str(e), "INVALID_PATH", 400)
 
     # ---- 获取设置 ----------------------------------------------
-    @prompt_server.routes.get("/diy/settings")
+    @prompt_server.routes.get("/prompt-stitcher/settings")
     async def api_get_settings(request: web.Request):
         settings_path = os.path.join(base_dir, "settings.json")
         try:
@@ -309,7 +309,7 @@ def register_routes(prompt_server, base_dir: str):
             return svc._json_ok({"font_size": 14})
 
     # ---- 保存设置 ----------------------------------------------
-    @prompt_server.routes.post("/diy/settings")
+    @prompt_server.routes.post("/prompt-stitcher/settings")
     async def api_save_settings(request: web.Request):
         try:
             body = await request.json()
@@ -322,7 +322,7 @@ def register_routes(prompt_server, base_dir: str):
         return svc._json_ok()
 
     # ---- 打开词库目录 ------------------------------------------
-    @prompt_server.routes.get("/diy/open-folder")
+    @prompt_server.routes.get("/prompt-stitcher/open-folder")
     async def api_open_folder(request: web.Request):
         try:
             if platform.system() == "Windows":

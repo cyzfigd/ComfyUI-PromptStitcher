@@ -112,8 +112,8 @@ import { app } from "../../../scripts/app.js";
 // ============================================================
 //  API 封装（内联）
 // ============================================================
-const DIY_API = {
-    BASE: "/diy",
+const PromptStitcherAPI = {
+    BASE: "/prompt-stitcher",
 
     async _get(url) {
         const r = await fetch(url);
@@ -317,7 +317,7 @@ class StitcherUI {
 
     async _loadFontSize() {
         try {
-            const s = await DIY_API.getSettings();
+            const s = await PromptStitcherAPI.getSettings();
             this._fontSize = s.font_size || 14;
         } catch (e) {
             this._fontSize = 14;
@@ -435,7 +435,7 @@ class StitcherUI {
 
     async _navigateTo(path) {
         if (path) {
-            try { await DIY_API.scan(path); } catch (e) {
+            try { await PromptStitcherAPI.scan(path); } catch (e) {
                 path = "";
                 showToast("文件夹不存在，已回退到根目录", true);
             }
@@ -450,7 +450,7 @@ class StitcherUI {
         this.selectionEl.innerHTML = '<div class="ps-loading">加载中...</div>';
 
         try {
-            const data = await DIY_API.scan(this.state.currentPath);
+            const data = await PromptStitcherAPI.scan(this.state.currentPath);
             this.selectionEl.innerHTML = "";
 
             if (data.folders.length === 0 && data.files.length === 0) {
@@ -632,7 +632,7 @@ class StitcherUI {
     async _cleanInvalidItems() {
         const fileItems = this.state.selectedItems.filter(it => it.type === "file");
         for (const item of fileItems) {
-            try { await DIY_API.readFile(item.path); } catch (e) { this.state.removeFile(item.path); }
+            try { await PromptStitcherAPI.readFile(item.path); } catch (e) { this.state.removeFile(item.path); }
         }
     }
 
@@ -719,7 +719,7 @@ function _openSettingsDialog(currentFontSize) {
         modal.style.setProperty("--ps-font-size", fontSize + "px");
 
         const debouncedSaveSettings = debounce(async () => {
-            try { await DIY_API.saveSettings({ font_size: fontSize }); } catch (e) { /* */ }
+            try { await PromptStitcherAPI.saveSettings({ font_size: fontSize }); } catch (e) { /* */ }
         }, 300);
 
         fontSizeInput.addEventListener("input", () => {
@@ -735,7 +735,7 @@ function _openSettingsDialog(currentFontSize) {
             const val = newFolderInput.value.trim();
             if (!val) return;
             try {
-                await DIY_API.createFolder(val);
+                await PromptStitcherAPI.createFolder(val);
                 newFolderInput.value = "";
                 libraryChanged = true;
                 await loadFolderTree();
@@ -743,7 +743,7 @@ function _openSettingsDialog(currentFontSize) {
         });
 
         overlay.querySelector("#ps-btn-open-folder").addEventListener("click", async () => {
-            try { await DIY_API.openFolder(); } catch (e) { alert("打开失败: " + e.message); }
+            try { await PromptStitcherAPI.openFolder(); } catch (e) { alert("打开失败: " + e.message); }
         });
 
         // ============================================================
@@ -751,7 +751,7 @@ function _openSettingsDialog(currentFontSize) {
         // ============================================================
         async function loadFolderTree() {
             try {
-                const data = await DIY_API.folderTree();
+                const data = await PromptStitcherAPI.folderTree();
                 folderTreeNodes = data.tree || [];
                 renderFolderTree();
             } catch (e) {
@@ -818,7 +818,7 @@ function _openSettingsDialog(currentFontSize) {
             editorPanel.innerHTML = '<div style="color:#555;text-align:center;padding:20px;">加载中...</div>';
 
             try {
-                const data = await DIY_API.scan(folderPath);
+                const data = await PromptStitcherAPI.scan(folderPath);
                 let html = '';
 
                 // 操作按钮
@@ -871,7 +871,7 @@ function _openSettingsDialog(currentFontSize) {
                     parts[parts.length - 1] = newName;
                     const newPath = parts.join("/");
                     try {
-                        await DIY_API.renameFolder(folderPath, newPath);
+                        await PromptStitcherAPI.renameFolder(folderPath, newPath);
                         libraryChanged = true;
                         selectedFolderPath = newPath;
                         await loadFolderTree();
@@ -883,7 +883,7 @@ function _openSettingsDialog(currentFontSize) {
                     const name = prompt("新文件名:");
                     if (!name) return;
                     try {
-                        await DIY_API.saveFile(folderPath + "/", "", "", name);
+                        await PromptStitcherAPI.saveFile(folderPath + "/", "", "", name);
                         libraryChanged = true;
                         await loadFolderTree();
                         await renderFolderContents(folderPath);
@@ -895,7 +895,7 @@ function _openSettingsDialog(currentFontSize) {
                     const displayName = parts[parts.length - 1] || folderPath;
                     if (!confirm(`确定删除文件夹 "${displayName}" 及其所有内容？`)) return;
                     try {
-                        await DIY_API.deleteFolder(folderPath);
+                        await PromptStitcherAPI.deleteFolder(folderPath);
                         libraryChanged = true;
                         selectedFolderPath = "";
                         selectedFile = null;
@@ -940,7 +940,7 @@ function _openSettingsDialog(currentFontSize) {
         // ============================================================
         async function renderFileEditor(filePath, fileName) {
             let content = "";
-            try { const d = await DIY_API.readFile(filePath); content = d.content || ""; } catch (e) { /* */ }
+            try { const d = await PromptStitcherAPI.readFile(filePath); content = d.content || ""; } catch (e) { /* */ }
 
             editorPanel.innerHTML = `
                 <div class="ps-editor-topbar">
@@ -970,7 +970,7 @@ function _openSettingsDialog(currentFontSize) {
                 if (!newName) return;
                 try {
                     const folderPath = originalPath.substring(0, originalPath.lastIndexOf("/"));
-                    await DIY_API.saveFile(folderPath || "", originalName, newContent, newName !== originalName ? newName : "");
+                    await PromptStitcherAPI.saveFile(folderPath || "", originalName, newContent, newName !== originalName ? newName : "");
                     libraryChanged = true;
                     if (newName !== originalName) {
                         const newPath = folderPath ? folderPath + "/" + newName + ".txt" : newName + ".txt";
@@ -985,7 +985,7 @@ function _openSettingsDialog(currentFontSize) {
             editorPanel.querySelector("#ps-btn-delete-file").addEventListener("click", async () => {
                 if (!confirm(`确定删除 "${fileName}"？`)) return;
                 try {
-                    await DIY_API.deleteFile(originalPath);
+                    await PromptStitcherAPI.deleteFile(originalPath);
                     libraryChanged = true;
                     selectedFile = null;
                     await loadFolderTree();

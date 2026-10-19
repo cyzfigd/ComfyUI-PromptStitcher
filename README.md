@@ -44,13 +44,15 @@ prompt_library/
 ├── 画风/
 │   └── 1.txt
 ├── 角色/
-│   └── 女性/
-│       └── 后藤一里.txt
+│   ├── 女性/
+│   │   └── 角色名.txt
+│   └── 男性/
+│       └── 角色名.txt
 └── 质量词/
     ├── 正面提示词/
     │   └── 正面质量词.txt
     └── 负面提示词/
-        └── anima负面质量词.txt
+        └── 负面质量词.txt
 ```
 
 ### 设置面板
@@ -59,8 +61,8 @@ prompt_library/
 
 ![设置面板](docs/settings.png)
 
-- **界面字号**：8–36px，保存在 `settings.json`
-- **新建文件夹**：支持 `角色\女性` 形式一次创建多级
+- **界面字号**：8–36px，保存在 `prompt_library/settings.json`
+- **新建文件夹**：支持 `质量词\正面提示词` 形式一次创建多级
 - **左侧文件夹树**：展开/折叠、重命名、删除
 - **右侧编辑区**：浏览文件夹内容，点文件即可改文件名和内容（300ms 防抖自动保存）
 - **打开词库目录**：调用系统文件管理器
@@ -83,7 +85,7 @@ prompt_library/
 ComfyUI-PromptStitcher/
 ├── __init__.py                  # 节点与 API 注册入口
 ├── nodes/prompt_stitcher.py     # 节点定义与拼接逻辑
-├── api/prompt_library_routes.py # 词库读写 HTTP 接口（/diy/*）
+├── api/prompt_library_routes.py # 词库读写 HTTP 接口（/prompt-stitcher/*）
 ├── web/js/prompt_stitcher.js    # 前端面板（样式 + 交互 + 设置弹窗）
 ├── docs/                        # README 截图
 └── prompt_library/              # 用户词库；settings.json 也存在这里（均不纳入版本管理）
@@ -93,10 +95,18 @@ ComfyUI-PromptStitcher/
 
 在 ComfyUI 0.41.3、前端 1.55.17 上验证（Vue 节点模式与经典画布模式均可用）。依赖前端的 `addDOMWidget` API，ComfyUI 版本过旧时面板不会显示。
 
-## 说明
+## 本地数据
 
-- `prompt_library/` 和 `settings.json` 属于本地数据，已在 `.gitignore` 中排除
-- API 路由前缀为 `/diy`，仅监听本地 ComfyUI 服务，不发起任何外部网络请求
+所有用户数据都在插件目录内，不放在 ComfyUI 的 `user/` 下：
+
+| 内容 | 路径 |
+| --- | --- |
+| 词库（文件夹 + `.txt`） | `ComfyUI/custom_nodes/ComfyUI-PromptStitcher/prompt_library/` |
+| 界面字号设置 | `ComfyUI/custom_nodes/ComfyUI-PromptStitcher/prompt_library/settings.json` |
+
+秋叶整合包的实际位置是 `D:\ComfyUI-aki-v2\ComfyUI\custom_nodes\ComfyUI-PromptStitcher\prompt_library\`。
+
+这两个路径都已写进 `.gitignore`，`git pull` 不会覆盖本地词库；重装或迁移插件前，备份整个 `prompt_library/` 即可。
 
 ## License
 

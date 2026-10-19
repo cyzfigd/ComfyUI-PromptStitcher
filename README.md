@@ -100,4 +100,6 @@ ComfyUI-PromptStitcher/
 
 ## License
 
-暂未指定。如需开源发布，建议补充 LICENSE（例如 MIT）。
+本项目以 **GNU General Public License v3.0** 发布，详见 [LICENSE](LICENSE)。
+
+Copyright (C) 2026 cyzfigd

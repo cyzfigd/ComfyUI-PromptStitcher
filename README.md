@@ -85,9 +85,8 @@ ComfyUI-PromptStitcher/
 ├── nodes/prompt_stitcher.py     # 节点定义与拼接逻辑
 ├── api/prompt_library_routes.py # 词库读写 HTTP 接口（/diy/*）
 ├── web/js/prompt_stitcher.js    # 前端面板（样式 + 交互 + 设置弹窗）
-├── prompt_library/              # 用户词库（默认不纳入版本管理）
-├── settings.json                # 运行期设置（默认不纳入版本管理）
-└── 设计.md                       # 原始设计文档
+├── docs/                        # README 截图
+└── prompt_library/              # 用户词库；settings.json 也存在这里（均不纳入版本管理）
 ```
 
 ## 兼容性

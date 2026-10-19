@@ -1,5 +1,5 @@
 """
-ComfyUI_DIY — Prompt Stitcher 节点
+ComfyUI-PromptStitcher — Prompt Stitcher 节点
 用于拼接多个提示词文件 + 外部输入，输出清洗后的合成提示词
 """
 
@@ -26,7 +26,7 @@ class PromptStitcher:
 
     RETURN_TYPES = ("STRING",)
     FUNCTION = "stitch"
-    CATEGORY = "DIY"
+    CATEGORY = "Prompt"
 
     # ---- 拼接核心逻辑 ------------------------------------------------
     @staticmethod

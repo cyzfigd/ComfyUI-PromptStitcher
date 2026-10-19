@@ -1,5 +1,5 @@
 """
-ComfyUI_DIY — 后端 API 路由
+ComfyUI-PromptStitcher — 后端 API 路由
 提供词库 CRUD + 设置读写 + 打开目录
 """
 

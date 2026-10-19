@@ -1,5 +1,5 @@
 /**
- * ComfyUI_DIY — Prompt Stitcher（单文件完整版）
+ * ComfyUI-PromptStitcher — Prompt Stitcher（单文件完整版）
  *
  * 包含：CSS 注入 + API 封装 + 主 Widget + 设置弹窗
  */
@@ -243,7 +243,7 @@ class StitcherState {
             this.currentPath = raw.currentPath || "";
             this.splitRatio = Math.max(0.15, Math.min(0.85, raw.splitRatio ?? 0.5));
         } catch (e) {
-            console.warn("[ComfyUI_DIY] Failed to parse state_json:", e);
+            console.warn("[ComfyUI-PromptStitcher] Failed to parse state_json:", e);
         }
     }
 
@@ -1008,7 +1008,7 @@ function _openSettingsDialog(currentFontSize) {
 //  注册扩展
 // ============================================================
 app.registerExtension({
-    name: "ComfyUI_DIY.PromptStitcher",
+    name: "ComfyUI-PromptStitcher.PromptStitcher",
 
     async beforeRegisterNodeDef(nodeType, nodeData) {
         if (nodeData.name !== "PromptStitcher") return;
@@ -1036,7 +1036,7 @@ app.registerExtension({
                     this._stitcherUI = ui;
                     ui._cleanInvalidItems().then(() => ui._refreshAll());
                 } catch (e) {
-                    console.error("[ComfyUI_DIY] Error building UI:", e);
+                    console.error("[ComfyUI-PromptStitcher] Error building UI:", e);
                 }
             };
             setTimeout(buildUI, 80);
@@ -1076,7 +1076,7 @@ app.registerExtension({
                         this._stitcherUI = ui;
                         ui._cleanInvalidItems().then(() => ui._refreshAll());
                     } catch (e) {
-                        console.error("[ComfyUI_DIY] Error rebuilding UI:", e);
+                        console.error("[ComfyUI-PromptStitcher] Error rebuilding UI:", e);
                     }
                 }, 80);
             }

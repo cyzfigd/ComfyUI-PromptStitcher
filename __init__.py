@@ -1,5 +1,5 @@
 """
-ComfyUI_DIY — 节点注册入口
+ComfyUI-PromptStitcher — 节点注册入口
 """
 
 import os
@@ -35,8 +35,8 @@ try:
     os.makedirs(prompt_library, exist_ok=True)
 
     register_routes(server.PromptServer.instance, prompt_library)
-    print("[ComfyUI_DIY] ✅ API routes registered successfully.")
+    print("[ComfyUI-PromptStitcher] ✅ API routes registered successfully.")
 except Exception as e:
-    print(f"[ComfyUI_DIY] ⚠ Failed to register API routes: {e}")
+    print(f"[ComfyUI-PromptStitcher] ⚠ Failed to register API routes: {e}")
     import traceback
     traceback.print_exc()

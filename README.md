@@ -19,18 +19,18 @@
 
 ```bash
 cd ComfyUI/custom_nodes
-git clone <本仓库地址> ComfyUI_DIY
+git clone <本仓库地址> ComfyUI-PromptStitcher
 ```
 
 重启 ComfyUI，然后 **Ctrl+Shift+R** 强制刷新浏览器缓存。
 
-节点位置：`DIY / Prompt Stitcher (提示词拼接器)`。
+节点位置：`Prompt / Prompt Stitcher (提示词拼接器)`。
 
 无需额外 Python 依赖（使用 ComfyUI 自带的 aiohttp）。
 
 ## 使用
 
-1. 把提示词按文件夹放进 `ComfyUI_DIY/prompt_library/`，一个 `.txt` 文件就是一条提示词：
+1. 把提示词按文件夹放进 `ComfyUI-PromptStitcher/prompt_library/`，一个 `.txt` 文件就是一条提示词：
    - 文件名 = 列表里显示的名称
    - 文件内容 = 实际参与拼接的文本
 2. 在节点里点击文件夹进入下一级，点击文件选中（再点取消）
@@ -80,7 +80,7 @@ prompt_library/
 ## 文件结构
 
 ```
-ComfyUI_DIY/
+ComfyUI-PromptStitcher/
 ├── __init__.py                  # 节点与 API 注册入口
 ├── nodes/prompt_stitcher.py     # 节点定义与拼接逻辑
 ├── api/prompt_library_routes.py # 词库读写 HTTP 接口（/diy/*）
